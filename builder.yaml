@@ -1,5 +1,10 @@
 components:
   - name: web
+    role: web
     platform: nodejs
     platformVersion: "24.20.0"
     path: /
+    run:
+      port: 8080
+      start: node .next/standalone/server.js
+      healthCheckPath: /health

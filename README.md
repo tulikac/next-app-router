@@ -42,18 +42,25 @@ submitting a value on `/server-action`.
 
 ## Builder Apps configuration
 
-The root `builder.yaml` declares the component name, public path, and the exact
-Node.js `24.20.0` runtime currently supported by the Builder Apps build image.
+The root `builder.yaml` declares one public web component, the exact Node.js
+`24.20.0` runtime currently supported by the Builder Apps build image, and its
+runtime startup contract:
+
+- Start the supported standalone entrypoint with
+  `node .next/standalone/server.js`
+- Listen on Builder Apps component port `8080`
+- Report readiness through `/health`
+
 It intentionally relies on Next.js detection for:
 
 - The Next.js adapter
 - The production build command
 - Static and compute outputs
-- The web role
-- Runtime startup, port, and health behavior
 
 The explicit platform version is required because a broad Node.js engine range
 was resolved to unsupported Node.js major version `20` during deployment.
+The explicit runtime contract is required because the inferred plan completed
+the build but timed out during startup health checks.
 
 `next.config.mjs` retains `output: "standalone"` because standalone output is
 application/framework configuration rather than Builder Apps configuration.
