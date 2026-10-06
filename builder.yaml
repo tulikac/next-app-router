@@ -1,3 +1,5 @@
 components:
   - name: web
+    platform: nodejs
+    platformVersion: "24.20.0"
     path: /

@@ -5,7 +5,7 @@ detection, build output, runtime startup, routing, and lifecycle behavior.
 
 ## Requirements
 
-- Node.js 20.9 or later
+- Node.js 24.10 or later, below Node.js 25
 - npm 10 or later
 
 The fixture currently pins Next.js `16.4.0-canary.52`, React `19.3.0`, and
@@ -42,20 +42,25 @@ submitting a value on `/server-action`.
 
 ## Builder Apps configuration
 
-The root `builder.yaml` declares only the component name and public path. It
-intentionally relies on Next.js detection for:
+The root `builder.yaml` declares the component name, public path, and the exact
+Node.js `24.20.0` runtime currently supported by the Builder Apps build image.
+It intentionally relies on Next.js detection for:
 
-- The Next.js adapter and Node.js platform
+- The Next.js adapter
 - The production build command
 - Static and compute outputs
 - The web role
 - Runtime startup, port, and health behavior
 
+The explicit platform version is required because a broad Node.js engine range
+was resolved to unsupported Node.js major version `20` during deployment.
+
 `next.config.mjs` retains `output: "standalone"` because standalone output is
 application/framework configuration rather than Builder Apps configuration.
 
 For the formal `N0` run, remove `builder.yaml` without changing any other
-source or lockfile content. The checked-in file is the `M1` variant.
+source or lockfile content. The checked-in file is the current working
+manifest variant.
 
 ## Routes and features
 

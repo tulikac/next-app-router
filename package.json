@@ -10,7 +10,7 @@
     "verify": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1 -BaseUrl http://127.0.0.1:8080"
   },
   "engines": {
-    "node": ">=20.9.0"
+    "node": ">=24.10.0 <25"
   },
   "dependencies": {
     "next": "16.4.0-canary.52",
