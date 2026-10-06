@@ -5,12 +5,12 @@ detection, build output, runtime startup, routing, and lifecycle behavior.
 
 ## Requirements
 
-- Node.js 24.10 or later, below Node.js 25
+- Node.js 24
 - npm 10 or later
 
-The fixture currently pins Next.js `16.4.0-canary.52`, React `19.3.0`, and
-React DOM `19.3.0`, matching the versions produced by `create-next-app@latest`
-when the fixture was created.
+The fixture follows the stable framework line used by the working Builder Apps
+Next.js references, with current security patches: Next.js `16.3.7`, React
+`19.2.8`, and React DOM `19.2.8`.
 
 ## Run locally
 
@@ -42,25 +42,26 @@ submitting a value on `/server-action`.
 
 ## Builder Apps configuration
 
-The root `builder.yaml` declares one public web component, the exact Node.js
-`24.20.0` runtime currently supported by the Builder Apps build image, and its
-runtime startup contract:
+The root `builder.yaml` declares one public web component and its runtime
+startup contract:
 
-- Start the supported standalone entrypoint with
-  `node .next/standalone/server.js`
-- Listen on Builder Apps component port `8080`
+- Start the standalone compute artifact with `node server.js`
+- Listen on Builder Apps component port `3000`
 - Report readiness through `/health`
 
-It intentionally relies on Next.js detection for:
+Builder Apps runs the start command from the prepared compute artifact root,
+where Next.js standalone output exposes `server.js`. It intentionally relies
+on Next.js detection for:
 
 - The Next.js adapter
+- The Node.js platform and supported runtime version
 - The production build command
 - Static and compute outputs
 
-The explicit platform version is required because a broad Node.js engine range
-was resolved to unsupported Node.js major version `20` during deployment.
-The explicit runtime contract is required because the inferred plan completed
-the build but timed out during startup health checks.
+The package does not declare a broad Node.js engine range because the build
+provider previously resolved that range to unsupported Node.js major version
+`20`. The runtime contract is explicit because the earlier inferred plan
+completed the build but timed out during startup health checks.
 
 `next.config.mjs` retains `output: "standalone"` because standalone output is
 application/framework configuration rather than Builder Apps configuration.
