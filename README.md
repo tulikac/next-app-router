@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js App Router Sample
 
-## Getting Started
+A hybrid Next.js App Router application used to qualify Builder Apps framework
+detection, build output, runtime startup, routing, and lifecycle behavior.
 
-First, run the development server:
+## Requirements
 
-```bash
+- Node.js 20.9 or later
+- npm 10 or later
+
+The fixture currently pins Next.js `16.4.0-canary.52`, React `19.3.0`, and
+React DOM `19.3.0`, matching the versions produced by `create-next-app@latest`
+when the fixture was created.
+
+## Run locally
+
+```powershell
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Production build and verification
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```powershell
+npm run lint
+npm run build
+$env:PORT = "8080"
+$env:HOSTNAME = "127.0.0.1"
+npm start
+```
 
-## Learn More
+In another terminal:
 
-To learn more about Next.js, take a look at the following resources:
+```powershell
+.\scripts\verify.ps1 -BaseUrl http://127.0.0.1:8080
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The server action is interactive and should also be checked in a browser by
+submitting a value on `/server-action`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Builder Apps configuration
 
-## Deploy on Vercel
+The root `builder.yaml` declares only the component name and public path. It
+intentionally relies on Next.js detection for:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- The Next.js adapter and Node.js platform
+- The production build command
+- Static and compute outputs
+- The web role
+- Runtime startup, port, and health behavior
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`next.config.mjs` retains `output: "standalone"` because standalone output is
+application/framework configuration rather than Builder Apps configuration.
+
+For the formal `N0` run, remove `builder.yaml` without changing any other
+source or lockfile content. The checked-in file is the `M1` variant.
+
+## Routes and features
+
+| Route | Purpose |
+|---|---|
+| `/` | Prerendered landing page, public asset, and optimized image |
+| `/dynamic` | Request-time server-rendered page and runtime setting |
+| `/products/widget-1` | Dynamic App Router segment |
+| `/api/version` | Route handler with framework and runtime identity |
+| `/health` | Runtime health route handler |
+| `/middleware-check` | Page with a deterministic response header from `src/proxy.js` |
+| `/server-action` | Interactive React Server Action form |
+| `/legacy` | Framework-configured temporary redirect to `/` |
+| `/missing-page` | Custom App Router not-found behavior |
+
+Next.js 16 renamed the `middleware.js` convention to `proxy.js`. This fixture
+uses the current convention while testing the same pre-render request behavior.

@@ -1,69 +1,68 @@
 import Image from "next/image";
-import styles from "./page.module.css";
+import Link from "next/link";
+import { appInfo } from "./info";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>
-            To get started, edit the{" "}
-            <code className={styles.code}>page.js</code> file.
-          </h1>
+    <main>
+      <p className="eyebrow">Builder Apps shape test</p>
+      <h1>Next.js App Router is running</h1>
+      <p>
+        This landing page is prerendered during the production build while the
+        linked routes exercise request-time framework behavior.
+      </p>
+
+      <nav aria-label="Test routes">
+        <Link className="button" href="/dynamic">
+          Open dynamic SSR page
+        </Link>
+        <Link href="/products/widget-1">Open dynamic segment</Link>
+        <Link href="/server-action">Test server action</Link>
+        <Link href="/middleware-check">Test proxy</Link>
+        <Link href="/api/version">View version route</Link>
+      </nav>
+
+      <section className="feature-card" aria-labelledby="image-heading">
+        <div>
+          <p className="eyebrow">Image optimization</p>
+          <h2 id="image-heading">Framework-managed raster image</h2>
           <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
+            The image is loaded from the public directory through the Next.js
+            image optimizer.
           </p>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+        <Image
+          src="/shape.png"
+          alt="Abstract purple application shape"
+          width={128}
+          height={128}
+          priority
+        />
+      </section>
+
+      <section aria-labelledby="deployment-heading">
+        <h2 id="deployment-heading">Deployment details</h2>
+        <dl>
+          <div>
+            <dt>Application</dt>
+            <dd>
+              {appInfo.app} {appInfo.version}
+            </dd>
+          </div>
+          <div>
+            <dt>Framework</dt>
+            <dd>{appInfo.framework}</dd>
+          </div>
+          <div>
+            <dt>Deployment</dt>
+            <dd>{appInfo.deploymentMarker}</dd>
+          </div>
+          <div>
+            <dt>Build setting</dt>
+            <dd>{appInfo.buildMarker}</dd>
+          </div>
+        </dl>
+      </section>
+    </main>
   );
 }
