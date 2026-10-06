@@ -5,4 +5,4 @@ components:
     run:
       port: 3000
       start: node server.js
-      healthCheckPath: /health
+      healthCheckPath: /api/health

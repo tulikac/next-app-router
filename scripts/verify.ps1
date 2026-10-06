@@ -78,6 +78,7 @@ Assert-Response -Path "/dynamic" -ExpectedStatus 200 -ExpectedContent "Dynamic s
 Assert-Response -Path "/products/widget-1" -ExpectedStatus 200 -ExpectedContent "Widget 1"
 Assert-Response -Path "/products/unknown" -ExpectedStatus 404 -ExpectedContent "Next.js page not found"
 Assert-Response -Path "/api/version" -ExpectedStatus 200 -ExpectedContent '"app":"next-app-router"'
+Assert-Response -Path "/api/health" -ExpectedStatus 200 -ExpectedContent '"status":"ok"'
 Assert-Response -Path "/health" -ExpectedStatus 200 -ExpectedContent '"status":"ok"'
 Assert-Response -Path "/middleware-check" -ExpectedStatus 200 -ExpectedContent "Proxy check reached the App Router" -ExpectedHeaders @{
     "x-builder-apps-proxy" = "active"

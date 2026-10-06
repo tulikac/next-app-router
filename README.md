@@ -47,7 +47,7 @@ startup contract:
 
 - Start the standalone compute artifact with `node server.js`
 - Listen on Builder Apps component port `3000`
-- Report readiness through `/health`
+- Report readiness through the App Router API route `/api/health`
 
 Builder Apps runs the start command from the prepared compute artifact root,
 where Next.js standalone output exposes `server.js`. It intentionally relies
@@ -78,7 +78,8 @@ manifest variant.
 | `/dynamic` | Request-time server-rendered page and runtime setting |
 | `/products/widget-1` | Dynamic App Router segment |
 | `/api/version` | Route handler with framework and runtime identity |
-| `/health` | Runtime health route handler |
+| `/api/health` | Builder Apps runtime health route handler |
+| `/health` | Compatibility health route handler |
 | `/middleware-check` | Page with a deterministic response header from `src/proxy.js` |
 | `/server-action` | Interactive React Server Action form |
 | `/legacy` | Framework-configured temporary redirect to `/` |
